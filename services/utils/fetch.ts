@@ -121,9 +121,29 @@ async function makeRequest(
               // Follow redirect
               try {
                 const redirectUrl = new URL(location, url).toString();
+                // 303 redirects should always use GET method per HTTP spec
+                let redirectOptions = options;
+                if (res.statusCode === 303) {
+                  // Remove body-specific headers when converting to GET
+                  const redirectHeaders: Record<string, string> = {};
+                  if (options.headers) {
+                    for (const [key, value] of Object.entries(options.headers)) {
+                      const lowerKey = key.toLowerCase();
+                      if (lowerKey !== 'content-type' && lowerKey !== 'content-length') {
+                        redirectHeaders[key] = value;
+                      }
+                    }
+                  }
+                  redirectOptions = {
+                    ...options,
+                    method: 'GET',
+                    body: undefined,
+                    headers: redirectHeaders,
+                  };
+                }
                 const redirectResponse = await makeRequest(
                   redirectUrl,
-                  options,
+                  redirectOptions,
                   retryCount,
                   redirectCount + 1,
                 );
