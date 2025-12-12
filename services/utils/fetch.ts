@@ -74,8 +74,6 @@ async function makeRequest(
     }
   }
 
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
   // Debug logging for Cloudflare Access headers
   if (headers['CF-Access-Client-Id'] || headers['cf-access-client-id']) {
     console.log('Sending Cloudflare Access headers for request:', {
@@ -86,6 +84,9 @@ async function makeRequest(
     });
   }
 
+  // Only skip TLS verification when explicitly requested via environment variable
+  const skipTlsVerify = process.env.SKIP_TLS_VERIFY === 'true';
+
   return new Promise((resolve, reject) => {
     const req = protocol.request(
       url,
@@ -93,7 +94,7 @@ async function makeRequest(
         method: mergedOptions.method || 'GET',
         headers,
         timeout,
-        rejectUnauthorized: isDevelopment,
+        rejectUnauthorized: !skipTlsVerify,
         minVersion: 'TLSv1.2',
         maxVersion: 'TLSv1.3',
         ciphers: 'HIGH:!aNULL:!MD5',
