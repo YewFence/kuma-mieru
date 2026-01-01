@@ -18,6 +18,7 @@ services:
       - FEATURE_TITLE=${FEATURE_TITLE}
       - FEATURE_DESCRIPTION=${FEATURE_DESCRIPTION}
       - FEATURE_ICON=${FEATURE_ICON}
+      - ALLOW_EMBEDDING=${ALLOW_EMBEDDING}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s

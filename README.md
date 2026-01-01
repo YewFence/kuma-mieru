@@ -31,31 +31,33 @@ Kuma Mieru 是一款基于 Next.js 16、TypeScript 和 Recharts 构建的第三�
 
 ## 目录
 
-- [目录](#目录)
-- [功能亮点 :sparkles:](#功能亮点-sparkles)
-- [测试截图 :camera:](#测试截图-camera)
-- [快速部署 :star:](#快速部署-star)
-  - [使用 Vercel 部署 (推荐)](#使用-vercel-部署-推荐)
-    - [1. Fork 仓库](#1-fork-仓库)
-    - [2. 导入到 Vercel](#2-导入到-vercel)
-    - [3. 配置环境变量](#3-配置环境变量)
-    - [4. 更新仓库](#4-更新仓库)
-  - [使用 Cloudflare Workers 部署](#使用-cloudflare-workers-部署)
-  - [本地部署](#本地部署)
-- [Docker 部署 :whale: (Beta)](#docker-部署-whale-beta)
-  - [使用 Docker Compose（推荐）](#使用-docker-compose-推荐)
-  - [Docker Run 部署](#docker-run-部署)
-    - [1. 获取容器镜像](#1-获取容器镜像)
-    - [2. 修改环境变量](#2-修改环境变量)
-    - [3. 启动容器服务](#3-启动容器服务)
-- [环境变量配置](#环境变量配置)
-- [与 Uptime Kuma 集成 :link:](#与-uptime-kuma-集成-link)
-- [FAQ :question:](#faq-question)
-  - [为什么我在 Kuma Mieru 中看到的时间与 Uptime Kuma 中有偏移？](#为什么我在-kuma-mieru-中看到的时间与-uptime-kuma-中有偏移)
-  - [请问兼容 Uptime Robot / Better Stack / 其他监控数据源吗？](#请问兼容-uptime-robot-better-stack-其他监控数据源吗)
-- [贡献指南 :handshake:](#贡献指南-handshake)
-- [Star History :star2:](#star-history-star2)
-- [开源许可 :lock:](#开源许可-lock)
+- [Kuma Mieru :traffic\_light:](#kuma-mieru-traffic_light)
+  - [目录](#目录)
+  - [功能亮点 :sparkles:](#功能亮点-sparkles)
+  - [测试截图 :camera:](#测试截图-camera)
+  - [快速部署 :star:](#快速部署-star)
+    - [使用 Vercel 部署 (推荐)](#使用-vercel-部署-推荐)
+      - [1. Fork 仓库](#1-fork-仓库)
+      - [2. 导入到 Vercel](#2-导入到-vercel)
+      - [3. 配置环境变量](#3-配置环境变量)
+      - [4. 更新仓库](#4-更新仓库)
+    - [使用 Cloudflare Workers 部署](#使用-cloudflare-workers-部署)
+    - [本地部署](#本地部署)
+  - [Docker 部署 :whale: (Beta)](#docker-部署-whale-beta)
+    - [使用 Docker Compose（推荐）](#使用-docker-compose推荐)
+    - [Docker Run 部署](#docker-run-部署)
+      - [1. 获取容器镜像](#1-获取容器镜像)
+      - [2. 修改环境变量](#2-修改环境变量)
+      - [3. 启动容器服务](#3-启动容器服务)
+  - [环境变量配置](#环境变量配置)
+  - [与 Uptime Kuma 集成 :link:](#与-uptime-kuma-集成-link)
+    - [与 Cloudflare One Application 集成](#与-cloudflare-one-application-集成)
+  - [FAQ :question:](#faq-question)
+    - [为什么我在 Kuma Mieru 中看到的时间与 Uptime Kuma 中有偏移？](#为什么我在-kuma-mieru-中看到的时间与-uptime-kuma-中有偏移)
+    - [请问兼容 Uptime Robot / Better Stack / 其他监控数据源吗？](#请问兼容-uptime-robot--better-stack--其他监控数据源吗)
+  - [贡献指南 :handshake:](#贡献指南-handshake)
+  - [Star History :star2:](#star-history-star2)
+  - [开源许可 :lock:](#开源许可-lock)
 
 ## 功能亮点 :sparkles:
 
@@ -267,6 +269,7 @@ docker run -d \
 | FEATURE_TITLE            | No   | 自定义页面标题                 | Kuma Mieru                                         |
 | FEATURE_DESCRIPTION      | No   | 自定义页面描述                 | A beautiful and modern uptime monitoring dashboard |
 | FEATURE_ICON             | No   | 自定义页面图标URL              | /icon.svg                                          |
+| ALLOW_EMBEDDING          | No   | 是否允许在 iframe 中嵌入       | `false` (禁止) / `true` (允许所有，不推荐) / `example.com,app.com` (白名单) |
 | CF_ACCESS_CLIENT_ID      | No   | Cloudflare Zero Trust 客户端 ID | （留空）                                           |
 | CF_ACCESS_CLIENT_SECRET  | No   | Cloudflare Zero Trust 客户端密钥 | （留空）                                           |
 

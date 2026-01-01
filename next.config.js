@@ -124,27 +124,62 @@ const productionConfig = {
   serverExternalPackages: ['sharp', 'cheerio', 'markdown-it', 'sanitize-html'],
 
   async headers() {
+    // Parse ALLOW_EMBEDDING: false/unset=block, true=allow all, or comma-separated origin list
+    const allowEmbedding = process.env.ALLOW_EMBEDDING;
+
+    const baseHeaders = [
+      {
+        key: 'X-Content-Type-Options',
+        value: 'nosniff',
+      },
+      {
+        key: 'X-XSS-Protection',
+        value: '1; mode=block',
+      },
+      {
+        key: 'Cache-Control',
+        value: 'public, max-age=300, stale-while-revalidate=60',
+      },
+    ];
+
+    if (!allowEmbedding || allowEmbedding === 'false') {
+      // Block iframe embedding (default)
+      baseHeaders.push({
+        key: 'X-Frame-Options',
+        value: 'SAMEORIGIN',
+      });
+    } else if (allowEmbedding === 'true') {
+      // Allow all origins (not recommended, security risk)
+      baseHeaders.push({
+        key: 'Content-Security-Policy',
+        value: "frame-ancestors 'self' *;",
+      });
+    } else {
+      // Parse comma-separated origin list, auto-add 'self'
+      const origins = allowEmbedding
+        .split(',')
+        .map((origin) => origin.trim())
+        .filter(Boolean);
+
+      // Normalize origins: add https:// protocol if missing
+      const normalizedOrigins = origins.map((origin) => {
+        if (origin.startsWith('http')) return origin;
+        return `https://${origin}`;
+      });
+
+      // Always include 'self' in allowed origins
+      const frameAncestors = `'self' ${normalizedOrigins.join(' ')}`;
+
+      baseHeaders.push({
+        key: 'Content-Security-Policy',
+        value: `frame-ancestors ${frameAncestors};`,
+      });
+    }
+
     return [
       {
         source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=300, stale-while-revalidate=60',
-          },
-        ],
+        headers: baseHeaders,
       },
       {
         source: '/api/(.*)',
