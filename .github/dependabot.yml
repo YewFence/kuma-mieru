@@ -7,17 +7,27 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "thursday"
+      time: "00:00"
+      timezone: "Etc/UTC"
     commit-message:
-      prefix: "chore(dependabot, npm)"
+      prefix: "chore(deps)"
     labels:
       - "dependencies"
       - "deps-bun"
+      - "automerge"
+    open-pull-requests-limit: 10
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "thursday"
+      time: "00:00"
+      timezone: "Etc/UTC"
     commit-message:
-      prefix: "chore(dependabot, docker)"
+      prefix: "chore(deps)"
     labels:
       - "dependencies"
       - "deps-docker"
+      - "automerge"
+    open-pull-requests-limit: 5
